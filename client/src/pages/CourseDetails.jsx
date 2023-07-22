@@ -5,12 +5,12 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 
-import ConfirmationModal from "../components/Common/ConfirmationModal"
-import Footer from "../components/Common/Footer"
-import RatingStars from "../components/Common/RatingStars"
+import ConfirmationModal from "../components/common/ConfirmationModal"
+import Footer from "../components/common/Footer"
+import RatingStars from "../components/common/RatingStars"
 import CourseAccordionBar from "../components/core/Course/CourseAccordionBar"
 import CourseDetailsCard from "../components/core/Course/CourseDetailsCard"
-import { formatDate } from "../services/formatDate"
+import { formatDate } from "../services/format-date"
 import { fetchCourseDetails } from "../services/operations/courseDetailsAPI"
 import { BuyCourse } from "../services/operations/studentFeaturesAPI"
 import GetAvgRating from "../utils/avgRating"
@@ -33,7 +33,7 @@ function CourseDetails() {
   const [confirmationModal, setConfirmationModal] = useState(null)
   useEffect(() => {
     // Calling fetchCourseDetails fucntion to fetch the details
-    ;(async () => {
+    ; (async () => {
       try {
         const res = await fetchCourseDetails(courseId)
         // console.log("course details res: ", res)
@@ -71,7 +71,7 @@ function CourseDetails() {
   useEffect(() => {
     let lectures = 0
     response?.data?.courseDetails?.courseContent?.forEach((sec) => {
-      lectures += sec.subSection.length || 0
+      lectures += sec.subSection?.length || 0
     })
     setTotalNoOfLectures(lectures)
   }, [response])
@@ -151,8 +151,8 @@ function CourseDetails() {
               <div className="text-md flex flex-wrap items-center gap-2">
                 <span className="text-yellow-25">{avgReviewCount}</span>
                 <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                <span>{`(${ratingAndReviews.length} reviews)`}</span>
-                <span>{`${studentsEnroled.length} students enrolled`}</span>
+                <span>{`(${ratingAndReviews?.length} reviews)`}</span>
+                <span>{`${studentsEnroled?.length} students enrolled`}</span>
               </div>
               <div>
                 <p className="">
@@ -207,7 +207,7 @@ function CourseDetails() {
               <div className="flex flex-wrap justify-between gap-2">
                 <div className="flex gap-2">
                   <span>
-                    {courseContent.length} {`section(s)`}
+                    {courseContent?.length} {`section(s)`}
                   </span>
                   <span>
                     {totalNoOfLectures} {`lecture(s)`}

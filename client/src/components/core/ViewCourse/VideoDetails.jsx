@@ -8,7 +8,7 @@ import { BigPlayButton, Player } from "video-react"
 
 import { markLectureAsComplete } from "../../../services/operations/courseDetailsAPI"
 import { updateCompletedLectures } from "../../../slices/viewCourseSlice"
-import IconBtn from "../../Common/IconBtn"
+import IconBtn from "../../common/IconBtn"
 
 const VideoDetails = () => {
   const { courseId, sectionId, subSectionId } = useParams()
@@ -27,7 +27,7 @@ const VideoDetails = () => {
 
   useEffect(() => {
     ; (async () => {
-      if (!courseSectionData.length) return
+      if (!courseSectionData?.length) return
       if (!courseId && !sectionId && !subSectionId) {
         navigate(`/dashboard/enrolled-courses`)
       } else {
@@ -73,7 +73,7 @@ const VideoDetails = () => {
     )
 
     const noOfSubsections =
-      courseSectionData[currentSectionIndx].subSection.length
+      courseSectionData[currentSectionIndx].subSection?.length
 
     const currentSubSectionIndx = courseSectionData[
       currentSectionIndx
@@ -107,14 +107,14 @@ const VideoDetails = () => {
     )
 
     const noOfSubsections =
-      courseSectionData[currentSectionIndx].subSection.length
+      courseSectionData[currentSectionIndx].subSection?.length
 
     const currentSubSectionIndx = courseSectionData[
       currentSectionIndx
     ].subSection.findIndex((data) => data._id === subSectionId)
 
     if (
-      currentSectionIndx === courseSectionData.length - 1 &&
+      currentSectionIndx === courseSectionData?.length - 1 &&
       currentSubSectionIndx === noOfSubsections - 1
     ) {
       return true
@@ -146,7 +146,7 @@ const VideoDetails = () => {
     } else {
       const prevSectionId = courseSectionData[currentSectionIndx - 1]._id
       const prevSubSectionLength =
-        courseSectionData[currentSectionIndx - 1].subSection.length
+        courseSectionData[currentSectionIndx - 1].subSection?.length
       const prevSubSectionId =
         courseSectionData[currentSectionIndx - 1].subSection[
           prevSubSectionLength - 1

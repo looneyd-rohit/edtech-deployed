@@ -55,7 +55,7 @@ exports.passwordUpdated = (email, name) => {
   
   <body>
       <div class="container">
-      <a href="https://edtech-backend-dev.onrender.com/"><h1>Excellence Academia</h1></a>
+      <a href="https://excellence-academia.vercel.app/"><h1>Excellence Academia</h1></a>
           <div class="message">Password Update Confirmation</div>
           <div class="body">
               <p>Hey ${name},</p>

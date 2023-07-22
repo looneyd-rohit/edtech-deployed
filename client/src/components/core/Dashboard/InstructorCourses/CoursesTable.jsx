@@ -10,13 +10,13 @@ import { HiClock } from "react-icons/hi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { useNavigate } from "react-router-dom"
 
-import { formatDate } from "../../../../services/formatDate"
+import { formatDate } from "../../../../services/format-date"
 import {
   deleteCourse,
   fetchInstructorCourses,
 } from "../../../../services/operations/courseDetailsAPI"
 import { COURSE_STATUS } from "../../../../utils/constants"
-import ConfirmationModal from "../../../Common/ConfirmationModal"
+import ConfirmationModal from "../../../common/ConfirmationModal"
 
 export default function CoursesTable({ courses, setCourses }) {
   const dispatch = useDispatch()
@@ -83,7 +83,7 @@ export default function CoursesTable({ courses, setCourses }) {
                       {course.courseName}
                     </p>
                     <p className="text-xs text-richblack-300">
-                      {course.courseDescription.split(" ").length >
+                      {course.courseDescription.split(" ")?.length >
                         TRUNCATE_LENGTH
                         ? course.courseDescription
                           .split(" ")
