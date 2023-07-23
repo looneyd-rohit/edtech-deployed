@@ -78,6 +78,8 @@ exports.createCourse = async (req, res) => {
       process.env.FOLDER_NAME
     )
     console.log(thumbnailImage)
+
+
     // Create a new course with the given details
     const newCourse = await Course.create({
       courseName,
@@ -90,7 +92,7 @@ exports.createCourse = async (req, res) => {
       thumbnail: thumbnailImage.secure_url,
       status: status,
       instructions,
-    })
+    });
 
     // Add the new course to the User Schema of the Instructor
     await User.findByIdAndUpdate(
@@ -421,14 +423,42 @@ exports.getInstructorCourses = async (req, res) => {
     const instructorId = req.user.id
 
     // Find all courses belonging to the instructor
-    const instructorCourses = await Course.find({
+    let instructorCourses = await Course.find({
       instructor: instructorId,
+    }).populate({
+      path: "courseContent",
+      populate: {
+        path: "subSection",
+      },
     }).sort({ createdAt: -1 })
+
+    let modifiedCourses = instructorCourses.map(course => course.toObject());
+    for (var i = 0; i < modifiedCourses.length; i++) {
+      let totalDurationInSeconds = 0
+      SubsectionLength = 0
+      for (var j = 0; j < modifiedCourses[i].courseContent.length; j++) {
+        totalDurationInSeconds += modifiedCourses[i].courseContent[
+          j
+        ].subSection.reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0)
+        // console.log('hello')
+        let flag = isNaN(totalDurationInSeconds);
+        modifiedCourses[i].totalDuration = convertSecondsToDuration(
+          flag ? 0 : totalDurationInSeconds
+        )
+      }
+    }
+    // console.log(instructorCourses)
+    // for (var i = 0; i < instructorCourses.length; i++) {
+    //   console.log(instructorCourses[i].totalDuration)
+    // }
+    // console.log(modifiedCourses[0].totalDuration);
+
+    // console.log("instructorCourses: ", JSON.stringify(instructorCourses));
 
     // Return the instructor's courses
     res.status(200).json({
       success: true,
-      data: instructorCourses,
+      data: modifiedCourses,
     })
   } catch (error) {
     console.error(error)
